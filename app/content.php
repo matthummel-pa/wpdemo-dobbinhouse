@@ -165,3 +165,60 @@ function event_calendar(): array
         'count' => count($events),
     ];
 }
+
+/**
+ * Minutes to read a post at about 225 words a minute (never less than 1).
+ */
+function reading_minutes(\WP_Post $post): int
+{
+    return max(1, (int) round(str_word_count(wp_strip_all_tags(strip_shortcodes($post->post_content))) / 225));
+}
+
+/**
+ * A journal post as card data.
+ *
+ * @return array{id: int, title: string, url: string, excerpt: string, image_id: int, date: string, iso: string, minutes: int, author: string, cats: list<array{name: string, url: string}>}
+ */
+function post_card(\WP_Post $post): array
+{
+    return [
+        'id' => $post->ID,
+        'title' => wp_strip_all_tags(get_the_title($post)),
+        'url' => (string) get_permalink($post),
+        'excerpt' => wp_strip_all_tags(get_the_excerpt($post)),
+        'image_id' => (int) get_post_thumbnail_id($post),
+        'date' => (string) get_the_date('', $post),
+        'iso' => (string) get_the_date(DATE_ATOM, $post),
+        'minutes' => reading_minutes($post),
+        'author' => (string) get_the_author_meta('display_name', (int) $post->post_author),
+        'cats' => array_map(fn (\WP_Term $t): array => ['name' => $t->name, 'url' => (string) get_category_link($t)], get_the_category($post->ID)),
+    ];
+}
+
+/**
+ * Posts from the same categories as $post (newest first), excluding it.
+ *
+ * @return list<array<string, mixed>>
+ */
+function related_posts(\WP_Post $post, int $limit = 3): array
+{
+    $posts = get_posts([
+        'post_type' => 'post',
+        'posts_per_page' => $limit,
+        'post__not_in' => [$post->ID],
+        'category__in' => wp_get_post_categories($post->ID),
+        'ignore_sticky_posts' => true,
+        'no_found_rows' => true,
+    ]);
+    if (count($posts) < $limit) {
+        $posts = array_merge($posts, get_posts([
+            'post_type' => 'post',
+            'posts_per_page' => $limit - count($posts),
+            'post__not_in' => array_merge([$post->ID], wp_list_pluck($posts, 'ID')),
+            'ignore_sticky_posts' => true,
+            'no_found_rows' => true,
+        ]));
+    }
+
+    return array_map(__NAMESPACE__.'\\post_card', $posts);
+}

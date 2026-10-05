@@ -70,8 +70,25 @@ function hero_eyebrow(): string
         is_post_type_archive('cobble_event') => __('Events & specials', 'cobbleandcandle'),
         is_post_type_archive('cobble_room') => __('Rooms & stays', 'cobbleandcandle'),
         is_singular('cobble_location') => __('Our houses', 'cobbleandcandle'),
+        is_singular('post') => post_eyebrow(),
+        is_category(), is_tag(), is_author(), is_home() => __('Journal', 'cobbleandcandle'),
         default => '',
     };
+}
+
+/**
+ * Journal post eyebrow: its categories and reading time.
+ */
+function post_eyebrow(): string
+{
+    $post = get_queried_object();
+    if (! $post instanceof \WP_Post) {
+        return '';
+    }
+    $minutes = reading_minutes($post);
+    $parts = array_merge(wp_list_pluck(get_the_category($post->ID), 'name'), [sprintf(_n('%d min read', '%d min read', $minutes, 'cobbleandcandle'), $minutes)]);
+
+    return implode(' · ', $parts);
 }
 
 /**
@@ -101,6 +118,13 @@ function page_hero(array $attributes): array
     } elseif (is_post_type_archive('cobble_room')) {
         $title = $title !== '' ? $title : __('Stay the night', 'cobbleandcandle');
         $lede = $lede !== '' ? $lede : __('Rooms upstairs from the bar: supper, a proper bed and breakfast in the morning.', 'cobbleandcandle');
+    } elseif (is_category() || is_tag()) {
+        $title = $title !== '' ? $title : single_term_title('', false);
+        $lede = $lede !== '' ? $lede : wp_strip_all_tags(term_description());
+    } elseif (is_author()) {
+        $author = get_queried_object();
+        $title = $title !== '' ? $title : ($author instanceof \WP_User ? $author->display_name : '');
+        $lede = $lede !== '' ? $lede : ($author instanceof \WP_User ? (string) get_the_author_meta('description', $author->ID) : '');
     } elseif (is_archive()) {
         $title = $title !== '' ? $title : wp_strip_all_tags(is_post_type_archive() ? post_type_archive_title('', false) : get_the_archive_title());
         $lede = $lede !== '' ? $lede : wp_strip_all_tags(get_the_archive_description());

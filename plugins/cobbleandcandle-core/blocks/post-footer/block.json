@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "cobbleandcandle/post-footer",
+  "title": "Post Footer",
+  "category": "cobbleandcandle",
+  "description": "Under a journal post: share links, the author card and related stories from the same category.",
+  "keywords": ["author", "share", "related", "blog"],
+  "textdomain": "cobbleandcandle-core",
+  "attributes": {
+    "relatedTitle": { "type": "string", "default": "Keep reading" },
+    "count": { "type": "number", "default": 3 }
+  },
+  "supports": { "html": false, "align": ["full"] }
+}

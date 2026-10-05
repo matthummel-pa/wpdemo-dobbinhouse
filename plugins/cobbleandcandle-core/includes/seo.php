@@ -85,6 +85,45 @@ function cobble_schema_website() {
 }
 
 /**
+ * BlogPosting node for a journal post. Yoast and Rank Math print their own Article, so this is
+ * only added when neither is active.
+ *
+ * @param int $post_id Post ID.
+ * @return array<string, mixed>
+ */
+function cobble_schema_blog_posting( $post_id ) {
+	$post  = get_post( $post_id );
+	$image = get_the_post_thumbnail_url( $post_id, 'full' );
+	$node  = array(
+		'@type'            => 'BlogPosting',
+		'@id'              => get_permalink( $post_id ) . '#article',
+		'mainEntityOfPage' => get_permalink( $post_id ),
+		'headline'         => wp_strip_all_tags( get_the_title( $post_id ) ),
+		'description'      => wp_strip_all_tags( get_the_excerpt( $post_id ) ),
+		'image'            => $image ? $image : null,
+		'datePublished'    => get_post_time( DATE_ATOM, true, $post_id ),
+		'dateModified'     => get_post_modified_time( DATE_ATOM, true, $post_id ),
+		'author'           => array(
+			'@type' => 'Person',
+			'name'  => get_the_author_meta( 'display_name', (int) $post->post_author ),
+			'url'   => get_author_posts_url( (int) $post->post_author ),
+		),
+		'publisher'        => array( '@id' => cobble_schema_id( 'organization' ) ),
+		'articleSection'   => wp_list_pluck( get_the_category( $post_id ), 'name' ),
+		'keywords'         => wp_list_pluck( (array) get_the_tags( $post_id ), 'name' ),
+		'wordCount'        => str_word_count( wp_strip_all_tags( (string) $post->post_content ) ),
+		'isPartOf'         => array( '@id' => cobble_schema_id( 'website' ) ),
+	);
+	/**
+	 * Filter the BlogPosting node.
+	 *
+	 * @param array<string, mixed> $node    Node.
+	 * @param int                  $post_id Post ID.
+	 */
+	return (array) apply_filters( 'cobble_schema_blog_posting', array_filter( $node, static fn( $v ) => null !== $v && '' !== $v && array() !== $v ), $post_id );
+}
+
+/**
  * "HH:MM" for schema times (a past-midnight close wraps, e.g. 25:00 → 01:00).
  *
  * @param int $minutes Minutes since midnight.
@@ -352,6 +391,9 @@ function cobble_schema_page_nodes() {
 	}
 	if ( is_singular( 'cobble_room' ) && function_exists( 'cobble_schema_room' ) ) {
 		$nodes[] = cobble_schema_room( get_queried_object_id() );
+	}
+	if ( is_singular( 'post' ) && ! cobble_seo_plugin_active() ) {
+		$nodes[] = cobble_schema_blog_posting( get_queried_object_id() );
 	}
 	if ( is_page() && has_block( 'cobbleandcandle/full-menu', get_queried_object() ) ) {
 		$nodes = array_merge( $nodes, cobble_schema_menus( get_queried_object_id() ) );

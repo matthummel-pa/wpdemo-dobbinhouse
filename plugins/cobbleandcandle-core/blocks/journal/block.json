@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "cobbleandcandle/journal",
+  "title": "Journal",
+  "category": "cobbleandcandle",
+  "description": "Blog listing for the posts page and archives: category chips, a featured story, then cards with category, date and reading time.",
+  "keywords": ["blog", "journal", "news", "posts", "stories"],
+  "textdomain": "cobbleandcandle-core",
+  "attributes": {
+    "showFeatured": { "type": "boolean", "default": true },
+    "allLabel": { "type": "string", "default": "All stories" },
+    "emptyText": { "type": "string", "default": "No stories here yet." }
+  },
+  "supports": { "html": false, "align": ["full"] }
+}
