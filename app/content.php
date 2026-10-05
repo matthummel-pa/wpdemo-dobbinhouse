@@ -222,3 +222,30 @@ function related_posts(\WP_Post $post, int $limit = 3): array
 
     return array_map(__NAMESPACE__.'\\post_card', $posts);
 }
+
+/**
+ * Social profile links (Settings → Restaurant, plus any extras) rendered with the core Social Links block.
+ * Tripadvisor has no core icon, so it uses the link icon with a label.
+ *
+ * @param  array<string, string>  $extra  service => URL, added after the saved profiles.
+ */
+function social_links(array $extra = [], string $class = 'is-style-logos-only'): string
+{
+    $profiles = (function_exists('cobble_social_profiles') ? cobble_social_profiles() : []) + array_filter($extra);
+    $links = [];
+    foreach ($profiles as $service => $url) {
+        $links[] = ['blockName' => 'core/social-link', 'attrs' => array_filter([
+            'url' => $url,
+            'service' => $service === 'tripadvisor' ? 'chain' : $service,
+            'label' => $service === 'tripadvisor' ? 'Tripadvisor' : null,
+        ]), 'innerBlocks' => [], 'innerHTML' => '', 'innerContent' => []];
+    }
+
+    return $links ? render_block([
+        'blockName' => 'core/social-links',
+        'attrs' => ['className' => $class],
+        'innerBlocks' => $links,
+        'innerHTML' => '<ul class="wp-block-social-links '.esc_attr($class).'"></ul>',
+        'innerContent' => array_merge(['<ul class="wp-block-social-links '.esc_attr($class).'">'], array_fill(0, count($links), null), ['</ul>']),
+    ]) : '';
+}

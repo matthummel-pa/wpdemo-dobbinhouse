@@ -114,11 +114,17 @@ em{font-style:var(--em-style);color:var(--color-accent)}
 [data-theme="lampwright"] .show-lampwright,[data-theme="ember-arch"] .show-ember-arch,[data-theme="ashlar-iron"] .show-ashlar-iron{display:block}
 
 /* ---------- utility bar ---------- */
-.util{background:var(--color-surface);border-bottom:1px solid var(--color-line);font-size:var(--text-sm);position:relative;z-index:60}
-.util-in{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:52px}
+.util{background:var(--color-surface);border-bottom:1px solid var(--color-line);font-size:var(--text-xs);position:relative;z-index:60}
+.util-in{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:52px;padding-block:10px}
 .util-l,.util-r{display:flex;align-items:center;gap:22px}
 .util-phone{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--color-muted);min-height:44px}
-.util-phone .i{width:16px;height:16px}
+.util-phone .i{width:14px;height:14px}
+.util .status{font-size:inherit}
+.util-social .wp-block-social-links{display:flex;gap:2px;margin:0;padding:0}
+.util-social .wp-social-link{margin:0;background:none!important;color:inherit!important}
+.util-social .wp-social-link a{display:grid;place-items:center;width:var(--tap);height:var(--tap);padding:0;color:var(--color-muted);border-radius:var(--radius-chip)}
+.util-social .wp-social-link a:hover,.util-social .wp-social-link a:focus-visible{color:var(--color-accent)}
+.util-social .wp-social-link svg{width:16px;height:16px;fill:currentColor}
 .locsw{position:relative}
 .locsw-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding-block:0;padding-inline:12px 14px;border:1px solid color-mix(in srgb,var(--color-text) 22%,transparent);border-radius:var(--radius-chip);background:color-mix(in srgb,var(--color-bg) 60%,transparent)}
 .locsw-btn .i{width:16px;height:16px;color:var(--color-accent)}
@@ -694,7 +700,8 @@ input::placeholder,textarea::placeholder{color:var(--color-muted);opacity:1}
   .rooms-notes,.amenities{grid-template-columns:1fr}
   :root{--header-h:68px}
   body{padding-bottom:calc(var(--mbar-h) + env(safe-area-inset-bottom))}
-  .util-in{min-height:52px;gap:8px}
+  .util-in{min-height:52px;gap:8px;padding-block:6px}
+  .util-social{display:none}
   .util-l{gap:10px;min-width:0}
   .util-status{display:none}
   .locsw-l{display:none}

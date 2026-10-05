@@ -13,6 +13,7 @@
     "orderLabel": { "type": "string", "default": "Order online" },
     "orderUrl": { "type": "string", "default": "" },
     "showUtilityBar": { "type": "boolean", "default": true },
+    "showSocial": { "type": "boolean", "default": true },
     "showStyleSwitcher": { "type": "boolean", "default": false }
   },
   "supports": { "html": false, "multiple": false, "reusable": false, "inserter": true }
