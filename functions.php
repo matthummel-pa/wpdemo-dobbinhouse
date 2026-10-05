@@ -50,7 +50,7 @@ Application::configure()
 |
 */
 
-collect(['setup', 'filters', 'theme', 'kinds', 'locations', 'content', 'pages', 'blocks', 'admin', 'art', 'woocommerce'])
+collect(['setup', 'filters', 'theme', 'kinds', 'locations', 'content', 'pages', 'blocks', 'admin', 'art', 'woocommerce', 'shop-demo'])
     ->each(function ($file) {
         if (! locate_template($file = "app/{$file}.php", true, true)) {
             wp_die(wp_kses(

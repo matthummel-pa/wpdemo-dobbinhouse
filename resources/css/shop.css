@@ -1,5 +1,6 @@
 /*
- * Gift shop page sections (core blocks with these class names, see patterns/page-shop.php) and WooCommerce blocks.
+ * Gift shop page sections (core blocks with these class names, see patterns/shop-items.php) and WooCommerce product blocks.
+ * Cart and checkout styles are in checkout.css.
  * Unlayered, like core-blocks.css, so it beats WordPress's and WooCommerce's unlayered block styles.
  * .shop-card and WooCommerce's product card share one look, so swapping the hand-built grid for a
  * Product Collection block later keeps the page's design.
@@ -107,6 +108,25 @@
 .wc-block-components-notice-banner,.woocommerce-message,.woocommerce-info,.woocommerce-error {padding:14px 18px;border:1px solid var(--color-line);border-left:3px solid var(--color-accent);border-radius:var(--radius-card);background:var(--color-surface);color:var(--color-text);list-style:none}
 .wc-block-pagination,.wp-block-query-pagination {display:flex;justify-content:center;gap:8px;margin-top:var(--space-7)}
 
+/* product collection on the Gift Shop page: same grid and card as .shop-grid / .shop-card */
+.wc-block-product-template.wc-block-product-template {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;padding:0}
+.wc-block-product-template.columns-4 {grid-template-columns:repeat(4,minmax(0,1fr))}
+.wc-block-product-template.columns-2 {grid-template-columns:repeat(2,minmax(0,1fr))}
+.wc-block-product-template .wc-block-product {width:auto !important;max-width:none !important;margin:0 !important;text-align:start}
+.wc-block-product .wc-block-components-product-image img {aspect-ratio:4/3 !important}
+.wc-block-product > .shop-tag {margin-top:20px}
+.wc-block-product > .shop-tag a {position:relative;z-index:1;color:inherit;text-decoration:none}
+.wc-block-product > .shop-tag + .wp-block-post-title {margin-top:8px}
+.wc-block-product .wc-block-components-product-price {margin:6px 0 0 !important;text-align:start}
+.wc-block-product .shop-card-x {margin-top:8px}
+.wc-block-product .shop-card-x p {margin:0}
+.wc-block-product .wc-block-components-product-button {display:flex;flex-direction:column;align-items:stretch;margin-top:auto !important;padding-top:16px}
+.wc-block-product .wc-block-components-product-button__button {width:100% !important;justify-content:center}
+.wc-block-components-product-button .added_to_cart {align-self:flex-start}
+.wc-block-components-product-button .added_to_cart {display:inline-block;margin-top:10px;font-size:var(--text-sm);font-weight:700;color:var(--color-accent)}
+.shop-more {margin:var(--space-6) 0 0;font-weight:700}
+.shop-more a {color:var(--color-accent)}
+
 /* single product */
 .shop-product {display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:start}
 .shop-product > * {margin:0}
@@ -125,9 +145,11 @@
 /* utility-bar cart link */
 .util-cart {display:inline-flex;align-items:center;gap:6px;min-height:var(--tap);color:inherit;text-decoration:none;font-weight:700}
 .util-cart .i {width:16px;height:16px}
+.util-cart-n {display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--color-accent);color:var(--color-accent-contrast);font-size:var(--text-xs);line-height:1}
+.util-cart-n[hidden] {display:none}
 
 @media (max-width:1023px) {
-  .shop-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .shop-grid,.wc-block-product-template.wc-block-product-template {grid-template-columns:repeat(2,minmax(0,1fr))}
   .shop-split,.shop-product {grid-template-columns:1fr}
   .shop-product-b {position:static}
 }
@@ -137,7 +159,7 @@
   .shop-frames .wp-block-image:nth-child(even) {transform:rotate(2deg)}
 }
 @media (max-width:479px) {
-  .shop-grid {grid-template-columns:1fr}
+  .shop-grid,.wc-block-product-template.wc-block-product-template {grid-template-columns:1fr}
   .shop-card {display:grid;grid-template-columns:112px minmax(0,1fr);align-items:stretch}
   .shop-card .wp-block-image img {height:100%;aspect-ratio:auto}
   .shop-card-b {padding:14px 16px 16px;gap:4px}

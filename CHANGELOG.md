@@ -2,6 +2,19 @@
 
 All notable changes to the Cobble & Candle theme and the Cobble & Candle Core plugin. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.4.0] — 2026-10-05
+
+### Added
+- **Online gift shop on WooCommerce**: pickup-only ordering with **Pay at pickup**. "Shop products (online store)" pattern with live products and Add to cart in the gift shop card style; themed cart, checkout and order-received templates (`page-cart`, `page-checkout`, `order-confirmation`).
+- **Cart count** in the utility bar, refreshed from the Store API after an add or remove and on cached pages.
+- `wp cobbleandcandle-shop seed`: demo products (Bakery, Country Curiosity Store), local pickup at the gift shop counter, Pay at pickup and a Gift Shop page.
+- Basket drawing for products without a photo.
+
+### Changed
+- Shop and category cards show the category and short description, like the Gift Shop cards. Product grids keep their column count at every width (3 on Shop, 4 on the Gift Shop; 2 on tablets, 1 on phones).
+- Cart and checkout styles are a separate stylesheet loaded only on those pages.
+- The mobile action bar is hidden on cart and checkout.
+
 ## [Unreleased] — toward 1.0.0
 
 ### Added

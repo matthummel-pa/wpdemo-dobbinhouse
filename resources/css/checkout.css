@@ -1,0 +1,98 @@
+/*
+ * WooCommerce cart, checkout and order-received pages. Loaded only on those pages (app/woocommerce.php), after
+ * app.css, so the theme's tokens apply and every other page keeps its CSS budget.
+ */
+
+/* cart, checkout and order confirmation (WooCommerce blocks) */
+.shop-cart,.shop-checkout,.shop-order {color:var(--color-text)}
+.shop-cart .wp-block-post-content,.shop-checkout .wp-block-post-content {max-width:none}
+.wc-block-cart,.wc-block-checkout {margin:0 !important;padding:0 !important;color:var(--color-text)}
+.wc-block-cart-items th,.wc-block-cart__totals-title,
+.wc-block-components-checkout-step__title,.wc-block-components-checkout-order-summary__title-text,
+.wc-block-components-totals-item__label {font-family:var(--font-sans)}
+.wc-block-cart-items th,.wc-block-cart__totals-title {font-size:var(--text-xs) !important;font-weight:700 !important;letter-spacing:.14em;text-transform:uppercase;color:var(--color-eyebrow) !important}
+.wc-block-components-checkout-step__title,.wc-block-components-checkout-order-summary__title-text {font-family:var(--font-display);font-weight:var(--display-weight)}
+.wc-block-cart-items,.wc-block-cart-items td,.wc-block-cart-items th,
+.wc-block-components-totals-wrapper,.wc-block-components-panel,
+.wc-block-components-order-summary,.wp-block-woocommerce-checkout-order-summary-block,
+.wc-block-checkout__actions,.wc-block-components-checkout-step {border-color:var(--color-line) !important}
+.wp-block-woocommerce-checkout-order-summary-block {border-radius:var(--radius-card);background:var(--color-surface)}
+.wc-block-components-product-name {font-family:var(--font-display);font-weight:var(--display-weight);font-size:var(--text-lg);color:var(--color-text) !important;text-decoration:none}
+.wc-block-components-product-metadata,.wc-block-components-checkout-step__description,
+.wc-block-checkout__terms,.wc-block-checkout__guest-checkout-notice,
+.wc-block-components-pickup-location__address,.wc-block-components-pickup-location__details {color:var(--color-muted) !important}
+.wc-block-components-product-metadata__description p {margin:4px 0 0;font-size:var(--text-sm)}
+.wc-block-cart-item__prices .wc-block-components-product-price,
+.wc-block-components-order-summary-item__individual-prices {font-size:var(--text-sm) !important;font-weight:400 !important;color:var(--color-muted) !important}
+.wc-block-cart-item__total .wc-block-components-product-price,
+.wc-block-components-order-summary-item__total-price {font-size:var(--text-base) !important}
+.wc-block-components-order-summary-item__quantity {background:var(--color-accent) !important;border-color:var(--color-surface) !important;color:var(--color-accent-contrast) !important}
+.wc-block-components-checkbox .wc-block-components-checkbox__input[type=checkbox] {background:transparent !important;border:1px solid color-mix(in srgb,var(--color-text) 52%,var(--color-bg)) !important}
+.wc-block-components-checkbox .wc-block-components-checkbox__input[type=checkbox]:checked {background:var(--color-accent) !important;border-color:var(--color-accent) !important}
+.wc-block-components-checkbox .wc-block-components-checkbox__mark {fill:var(--color-accent-contrast) !important}
+.wc-block-cart-item__image img,.wc-block-components-order-summary-item__image img {border-radius:var(--radius-input)}
+.wc-block-components-totals-footer-item,.wc-block-components-totals-item__value {color:var(--color-text)}
+.wc-block-components-totals-footer-item .wc-block-components-totals-item__value {font-size:var(--text-xl);font-weight:700}
+.wc-block-checkout__terms a,.wc-block-components-totals-coupon-link,.wc-block-components-panel__button,
+.wc-block-cart-item__remove-link,.wc-block-components-product-details a {color:var(--color-accent) !important}
+.wc-block-cart-item__remove-link {min-height:24px;font-size:var(--text-sm) !important}
+
+/* fields: match the theme's forms (components.css), which WooCommerce's unlayered styles would beat */
+.wc-block-components-text-input input,
+.wc-block-components-form .wc-block-components-text-input input,
+.wc-block-components-textarea,
+.wc-blocks-components-select .wc-blocks-components-select__select,
+.wc-block-components-quantity-selector {color:var(--color-text) !important;background:color-mix(in srgb,var(--color-text) 5%,var(--color-bg)) !important;border:1px solid color-mix(in srgb,var(--color-text) 52%,var(--color-bg)) !important;border-radius:var(--radius-input) !important}
+.wc-block-components-text-input label,.wc-blocks-components-select__label {color:var(--color-muted) !important}
+.wc-block-components-text-input.is-active label {color:var(--color-muted) !important}
+.wc-blocks-components-select__expand {fill:var(--color-text)}
+.wc-block-components-quantity-selector input,.wc-block-components-quantity-selector button {color:var(--color-text) !important;background:transparent !important}
+.wc-block-components-quantity-selector button {min-width:var(--tap)}
+.wc-block-components-text-input input:focus,.wc-block-components-textarea:focus,
+.wc-blocks-components-select__select:focus {outline:2px solid var(--color-focus) !important;outline-offset:1px;border-color:var(--color-focus) !important;box-shadow:none !important}
+.wc-block-components-validation-error {color:var(--color-warn)}
+
+/* pickup location and payment: selectable cards */
+.wc-block-components-radio-control__option,.wc-block-components-radio-control-accordion-option {color:var(--color-text)}
+.wc-block-components-radio-control--highlight-checked,.wc-block-components-radio-control-accordion-option {border-color:var(--color-line) !important}
+.wc-block-components-radio-control--highlight-checked .wc-block-components-radio-control__option-checked,
+.wc-block-components-radio-control--highlight-checked .wc-block-components-radio-control-accordion-option--checked-option-highlighted,
+.wc-block-components-radio-control__option--checked-option-highlighted {box-shadow:inset 0 0 0 1.5px var(--color-accent) !important}
+.wc-block-components-radio-control__input {border-color:color-mix(in srgb,var(--color-text) 52%,var(--color-bg)) !important;background:transparent !important}
+.wc-block-components-radio-control__input:checked::before {background:var(--color-accent) !important}
+.wc-block-components-radio-control__secondary-label {color:var(--color-accent)}
+
+/* the place-order and checkout buttons are full width; the cart's sits under the totals */
+.wc-block-components-checkout-place-order-button,.wc-block-cart__submit-button {width:100%}
+.wc-block-components-button:not(.is-link):focus-visible {outline:2px solid var(--color-focus);outline-offset:2px}
+.wc-block-components-button:not(.is-link) .wc-block-components-button__text {color:inherit}
+.wc-block-components-totals-coupon__button {min-height:50px}
+
+/* cart and checkout are task pages: WooCommerce's sticky checkout button replaces the theme's mobile action bar */
+.woocommerce-cart .mbar,.woocommerce-checkout .mbar {display:none !important}
+@media (max-width:767px) {
+  body.woocommerce-cart,body.woocommerce-checkout {padding-bottom:0}
+}
+
+/* empty cart */
+.wp-block-woocommerce-empty-cart-block {text-align:center}
+.wp-block-woocommerce-empty-cart-block .wc-block-cart__empty-cart__title {font-family:var(--font-display);font-weight:var(--display-weight);font-size:var(--text-2xl, 1.75rem)}
+.wp-block-woocommerce-empty-cart-block .wc-block-cart__empty-cart__title::before {display:none}
+.wp-block-woocommerce-empty-cart-block .wp-block-separator {display:none}
+
+/* order received */
+.shop-order .container {max-width:820px}
+.shop-order .container > * + * {margin-top:var(--space-6)}
+.wc-block-order-confirmation-status {font-family:var(--font-display);font-weight:var(--display-weight)}
+.wc-block-order-confirmation-status h1 {margin:0;font-size:clamp(2rem,4vw,3rem);line-height:1.1}
+.wc-block-order-confirmation-status p {color:var(--color-muted)}
+/* WooCommerce sets these lists with doubled class selectors; the doubled selectors here win without !important */
+.wc-block-order-confirmation-summary .wc-block-order-confirmation-summary-list.wc-block-order-confirmation-summary-list {display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:0;padding:20px 22px;list-style:none;border:1px solid var(--color-line);border-radius:var(--radius-card);background:var(--color-surface)}
+.wc-block-order-confirmation-summary-list-item__key {display:block;font-size:var(--text-xs);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--color-eyebrow)}
+.wc-block-order-confirmation-totals table {width:100%;border-collapse:collapse}
+.wc-block-order-confirmation-totals th,.wc-block-order-confirmation-totals td {padding:12px 0;border-bottom:1px solid var(--color-line);text-align:start}
+.wc-block-order-confirmation-totals td:last-child,.wc-block-order-confirmation-totals th:last-child {text-align:end}
+.wc-block-order-confirmation-totals a {color:var(--color-accent)}
+.shop-order-addr {display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.shop-order-addr > * {margin:0}
+.shop-order address {font-style:normal;color:var(--color-muted)}
