@@ -104,14 +104,18 @@ Alpine.store('site', {
   /* Recompute every location's status; badges bound to the store update reactively, the rest by slug. */
   refreshStatus() {
     if (!STATUS.labels) return
-    this.locations.forEach((loc) => {
-      if (!loc.windows) return
-      loc.status = computeStatus(loc.windows)
-      document.querySelectorAll(`[data-status-of="${CSS.escape(loc.slug)}"]`).forEach((el) => {
-        el.dataset.state = loc.status.state
+    const paint = (place) => {
+      if (!place.windows) return
+      place.status = computeStatus(place.windows)
+      document.querySelectorAll(`[data-status-of="${CSS.escape(place.slug)}"]`).forEach((el) => {
+        el.dataset.state = place.status.state
         const text = el.querySelector('.status-t')
-        if (text) text.textContent = loc.status.text
+        if (text) text.textContent = place.status.text
       })
+    }
+    this.locations.forEach((loc) => {
+      paint(loc)
+      ;(loc.venues || []).forEach(paint) // Venues inside a location (a tavern, an inn) keep their own hours.
     })
   },
   init() {

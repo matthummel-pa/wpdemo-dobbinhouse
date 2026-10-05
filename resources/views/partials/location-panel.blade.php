@@ -6,7 +6,6 @@
       ['train', __('Transit', 'cobbleandcandle'), (string) get_post_meta($l['id'], 'cobble_transit', true)],
       ['access', __('Access', 'cobbleandcandle'), (string) get_post_meta($l['id'], 'cobble_accessibility', true)],
   ], fn ($n) => $n[2] !== '');
-  $holidays = \App\holiday_rows($l['id']);
   $photo = (int) get_post_thumbnail_id($l['id']);
   $uid = wp_unique_id('map');
 @endphp
@@ -34,29 +33,34 @@
       <a href="mailto:{{ $l['email'] }}"><x-icon name="mail" />{{ $l['email'] }}</a>
     @endif
   </p>
-  <div class="lcols">
-    <div>
-      <h3 class="h4">{{ __('Opening hours', 'cobbleandcandle') }}</h3>
-      <table class="week">
-        <caption class="sr">{{ sprintf(__('Weekly hours at %s', 'cobbleandcandle'), $l['name']) }}</caption>
-        <tbody>
-          @foreach (\App\week_rows($l['id']) as [$day, $hours, $today])
-            <tr @class(['is-today' => $today])><th scope="row">{{ $day }}@if ($today)<span class="today-tag">{{ __('Today', 'cobbleandcandle') }}</span>@endif</th><td>{{ $hours }}</td></tr>
-          @endforeach
-        </tbody>
-      </table>
-    </div>
-    @if ($holidays)
-      <div>
-        <h3 class="h4">{{ __('Holiday hours', 'cobbleandcandle') }}</h3>
-        <ul class="holiday">
-          @foreach ($holidays as [$label, $date, $hours])
-            <li><span class="hol-d">{{ $date }}</span><span class="hol-n">{{ $label }}</span><span class="hol-h">{{ $hours }}</span></li>
-          @endforeach
-        </ul>
+  @php($venues = \App\venues($l['id']))
+  @if ($venues)
+    @php($vid = wp_unique_id('venue-'))
+    <div class="venues" x-data="tabs">
+      <h3 class="h4" id="{{ $vid }}-h">{{ __('Hours by venue', 'cobbleandcandle') }}</h3>
+      <div class="tabs" role="tablist" aria-labelledby="{{ $vid }}-h" @keydown="keys($event)">
+        @foreach (array_merge([$l], $venues) as $i => $place)
+          <button type="button" role="tab" class="tab" id="{{ $vid }}-t{{ $i }}" aria-controls="{{ $vid }}-p{{ $i }}"
+                  aria-selected="{{ $i === 0 ? 'true' : 'false' }}" tabindex="{{ $i === 0 ? 0 : -1 }}"
+                  :aria-selected="(active === {{ $i }}).toString()" :tabindex="active === {{ $i }} ? 0 : -1" @click="select({{ $i }})">{{ $place['name'] }}</button>
+        @endforeach
       </div>
-    @endif
-  </div>
+      @foreach (array_merge([$l], $venues) as $i => $place)
+        <div role="tabpanel" class="tabpanel venue-panel" id="{{ $vid }}-p{{ $i }}" aria-labelledby="{{ $vid }}-t{{ $i }}" tabindex="0" @if ($i > 0) hidden @endif :hidden="active !== {{ $i }}">
+          @if ($i > 0)
+            <x-status :status="$place['status']" :of="$place['slug']" />
+            @php($excerpt = (string) get_post_field('post_excerpt', $place['id']))
+            @if ($excerpt !== '')
+              <p class="venue-note">{{ $excerpt }}</p>
+            @endif
+          @endif
+          @include('partials.hours-table', ['place' => $place])
+        </div>
+      @endforeach
+    </div>
+  @else
+    @include('partials.hours-table', ['place' => $l])
+  @endif
   @if ($notes)
     <ul class="notes">
       @foreach ($notes as [$icon, $label, $text])

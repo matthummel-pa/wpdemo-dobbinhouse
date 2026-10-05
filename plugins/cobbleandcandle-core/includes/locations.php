@@ -10,7 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Published locations in menu order.
+ * Published top-level locations in menu order. Child locations are venues (see cobble_get_venues()).
  *
  * @return array<int, \WP_Post>
  */
@@ -21,6 +21,7 @@ function cobble_get_locations() {
 			array(
 				'post_type'      => 'cobble_location',
 				'post_status'    => 'publish',
+				'post_parent'    => 0,
 				'posts_per_page' => 20,
 				'orderby'        => array(
 					'menu_order' => 'ASC',
@@ -31,6 +32,29 @@ function cobble_get_locations() {
 		);
 	}
 	return $locations;
+}
+
+/**
+ * Venues inside a location: its published child locations in menu order, each with its own hours
+ * (e.g. a tavern, a dining room and an inn under one house).
+ *
+ * @param int $location_id Parent location ID.
+ * @return array<int, \WP_Post>
+ */
+function cobble_get_venues( $location_id ) {
+	return get_posts(
+		array(
+			'post_type'      => 'cobble_location',
+			'post_status'    => 'publish',
+			'post_parent'    => (int) $location_id,
+			'posts_per_page' => 20,
+			'orderby'        => array(
+				'menu_order' => 'ASC',
+				'title'      => 'ASC',
+			),
+			'no_found_rows'  => true,
+		)
+	);
 }
 
 /**

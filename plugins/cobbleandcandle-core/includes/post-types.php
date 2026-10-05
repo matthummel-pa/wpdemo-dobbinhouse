@@ -40,6 +40,7 @@ function cobble_register_content_types() {
 			),
 			'menu_icon'     => 'dashicons-location',
 			'menu_position' => 21,
+			'hierarchical'  => true, // A child location is a venue inside its parent (a tavern or an inn within one house).
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields', 'page-attributes', 'revisions' ),
 			'show_in_rest'  => true,
 		)

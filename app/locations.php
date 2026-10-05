@@ -22,6 +22,20 @@ function locations(): array
 }
 
 /**
+ * Venues inside a location (its child locations) as display arrays, each with its own hours.
+ *
+ * @return list<array<string, mixed>>
+ */
+function venues(int $location_id): array
+{
+    if (! function_exists('cobble_get_venues') || ! function_exists('cobble_location')) {
+        return [];
+    }
+
+    return array_values(array_filter(array_map('cobble_location', cobble_get_venues($location_id))));
+}
+
+/**
  * The server-rendered location (?loc=slug, else the first). The visitor's saved choice is applied in the browser.
  *
  * @return array<string, mixed>
@@ -45,6 +59,11 @@ function locations_json(): string
         'order_url' => $l['order_url'],
         'status' => $l['status'],
         'windows' => function_exists('cobble_status_windows') ? cobble_status_windows($l['id']) : null,
+        'venues' => array_map(fn (array $v): array => [
+            'slug' => $v['slug'],
+            'status' => $v['status'],
+            'windows' => function_exists('cobble_status_windows') ? cobble_status_windows($v['id']) : null,
+        ], venues($l['id'])),
     ], locations()), JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
 }
 
