@@ -490,5 +490,24 @@ Alpine.data('demoBar', () => ({
   },
 }))
 
+/* Cart count in the utility bar (WooCommerce only). The server prints it, but cached pages and add-to-cart
+   buttons don't reload the page, so it is refreshed from the Store API after an add or a remove, and on load
+   when WooCommerce's cart cookie says the guest has items. */
+const cartCounts = document.querySelectorAll('[data-cart-count]')
+if (cartCounts.length) {
+  const api = document.querySelector('link[rel="https://api.w.org/"]')?.href || '/wp-json/'
+  const show = (n) => cartCounts.forEach((el) => {
+    el.hidden = n < 1
+    el.lastChild.textContent = String(n)
+  })
+  const refresh = () => fetch(`${api}wc/store/v1/cart`, { credentials: 'same-origin' })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((cart) => { if (cart) show(Number(cart.items_count) || 0) })
+    .catch(() => {})
+  ;['wc-blocks_added_to_cart', 'wc-blocks_removed_from_cart'].forEach((name) => document.body.addEventListener(name, refresh))
+  if (/(?:^|; )woocommerce_items_in_cart=/.test(document.cookie)) refresh()
+  else show(0)
+}
+
 window.Alpine = Alpine
 Alpine.start()

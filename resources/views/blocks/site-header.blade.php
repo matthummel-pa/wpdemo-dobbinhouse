@@ -50,7 +50,7 @@
               <div class="util-social" aria-label="{{ __('Follow us', 'cobbleandcandle') }}" role="group">{!! $utilSocial !!}</div>
             @endif
             @if ($cart)
-              <a class="util-cart" href="{!! esc_url($cart['url']) !!}"><x-icon name="bag" />{{ $cart['label'] }}</a>
+              <a class="util-cart" href="{!! esc_url($cart['url']) !!}" data-cart-link><x-icon name="bag" />{{ $cart['label'] }}<span class="util-cart-n" data-cart-count @if ($cart['count'] < 1) hidden @endif><span class="sr">{{ __('Items:', 'cobbleandcandle') }} </span>{{ $cart['count'] }}</span></a>
             @endif
           </div>
         @endif

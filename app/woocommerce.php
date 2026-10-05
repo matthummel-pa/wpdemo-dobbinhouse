@@ -7,6 +7,8 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Vite;
+
 /**
  * Whether WooCommerce is active.
  */
@@ -40,18 +42,26 @@ add_filter('woocommerce_enqueue_styles', function (array $styles): array {
 });
 
 /**
- * Cart link for the utility bar, or '' when WooCommerce is off.
+ * Cart link for the utility bar, or null when WooCommerce is off. The count is printed for guests whose
+ * cart is already set; resources/js/app.js refreshes it from the Store API after an add or a remove, and
+ * on cached pages.
  *
- * @return array{url: string, label: string}|null
+ * @return array{url: string, label: string, count: int}|null
  */
 function cart_link(): ?array
 {
     if (! shop_active() || ! function_exists('wc_get_cart_url')) {
         return null;
     }
+    $count = function_exists('WC') && WC()->cart ? (int) WC()->cart->get_cart_contents_count() : 0;
 
-    return ['url' => (string) wc_get_cart_url(), 'label' => __('Cart', 'cobbleandcandle')];
+    return ['url' => (string) wc_get_cart_url(), 'label' => __('Cart', 'cobbleandcandle'), 'count' => $count];
 }
+
+/**
+ * Products without a photo show the theme's drawing instead of WooCommerce's grey placeholder.
+ */
+add_filter('woocommerce_placeholder_img_src', fn (): string => Vite::asset('resources/images/shop-placeholder.svg'));
 
 /**
  * Page-hero copy for shop archives: the Shop page's own title and excerpt, or the product category's.
@@ -83,3 +93,13 @@ function shop_hero(): ?array
 
     return null;
 }
+
+/**
+ * Cart, checkout and order-received styles, only on those pages.
+ */
+add_action('wp_enqueue_scripts', function (): void {
+    if (! shop_active() || Vite::isRunningHot() || ! (is_cart() || is_checkout())) {
+        return;
+    }
+    wp_enqueue_style('cobbleandcandle-checkout', Vite::asset('resources/css/checkout.css'), ['cobbleandcandle'], wp_get_theme(get_template())->get('Version'));
+}, 20);

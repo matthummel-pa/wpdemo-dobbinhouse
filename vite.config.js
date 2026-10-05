@@ -18,6 +18,7 @@ export default defineConfig({
         'resources/css/app.css',
         'resources/js/app.js',
         'resources/css/editor.css',
+        'resources/css/checkout.css',
       ],
       refresh: true,
       assets: ['resources/images/**', 'resources/fonts/**'],
