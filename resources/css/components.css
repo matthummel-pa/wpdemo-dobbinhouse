@@ -813,3 +813,29 @@ input::placeholder,textarea::placeholder{color:var(--color-muted);opacity:1}
   .demobar-sw > :first-child{margin-inline-start:0}
   .demobar-tag{display:none}
 }
+
+/* Event Calendar block */
+.evcal{margin-top:var(--space-6)}
+.evcal-nav{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);margin-bottom:var(--space-5)}
+.evcal-month{margin:0;text-align:center}
+.evcal-grid{width:100%;table-layout:fixed;border-collapse:collapse;border:1px solid var(--color-line)}
+.evcal-grid th{padding:10px 8px;font-size:var(--text-sm);font-weight:700;text-align:left;color:var(--color-muted);border-bottom:1px solid var(--color-line)}
+.evcal-grid abbr{text-decoration:none}
+.evcal-day{vertical-align:top;height:7.5rem;padding:8px;border:1px solid var(--color-line);background:var(--color-surface)}
+.evcal-day.is-out{background:transparent;color:var(--color-muted)}
+.evcal-day.is-out .evcal-ev{opacity:.7}
+.evcal-num{display:inline-flex;align-items:center;justify-content:center;min-width:2rem;height:2rem;font-weight:700;font-size:var(--text-sm)}
+.evcal-day.is-today .evcal-num{border-radius:var(--radius-chip);background:var(--color-accent);color:var(--color-accent-contrast)}
+.evcal-ev{display:block;min-height:var(--tap);margin-top:6px;padding:6px 8px;border-left:3px solid var(--color-accent);background:var(--color-surface-2);font-size:var(--text-xs);line-height:1.35;color:var(--color-text);text-decoration:none}
+.evcal-ev:hover,.evcal-ev:focus-visible{background:color-mix(in srgb,var(--color-accent) 18%,var(--color-surface-2))}
+.evcal-ev time{display:block;font-weight:700;color:var(--color-accent)}
+.evcal-agenda{display:none}
+.evcal-date{margin:var(--space-5) 0 var(--space-2)}
+.evcal-list{list-style:none;padding:0;margin:0}
+.evcal-list a{display:flex;align-items:center;min-height:var(--tap);padding:8px 12px;border-left:3px solid var(--color-accent);background:var(--color-surface);margin-bottom:6px}
+@media (max-width:767px){
+  .evcal-grid{display:none}
+  .evcal-agenda{display:block}
+  .evcal-nav .btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .evcal-nav .btn{min-width:var(--tap)}
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "cobbleandcandle/event-calendar",
+  "title": "Event Calendar",
+  "category": "cobbleandcandle",
+  "description": "A month calendar of events with previous and next month links. On phones it becomes a day-by-day list.",
+  "keywords": ["events", "calendar", "month", "schedule"],
+  "textdomain": "cobbleandcandle-core",
+  "attributes": {
+    "eyebrow": { "type": "string", "default": "Plan ahead" },
+    "title": { "type": "string", "default": "Event calendar" },
+    "intro": { "type": "string", "default": "" },
+    "emptyText": { "type": "string", "default": "No events this month yet." }
+  },
+  "supports": { "html": false, "align": ["full"] }
+}

@@ -258,3 +258,32 @@ function cobble_upcoming_events( $limit = 3 ) {
 	);
 	return array_map( 'cobble_event', $posts );
 }
+
+/**
+ * Events that start on or between two dates (inclusive), soonest first. Feeds the Event Calendar block.
+ *
+ * @param string $from First day, Y-m-d.
+ * @param string $to   Last day, Y-m-d.
+ * @return array<int, array<string, mixed>>
+ */
+function cobble_events_between( $from, $to ) {
+	$posts = get_posts(
+		array(
+			'post_type'      => 'cobble_event',
+			'post_status'    => 'publish',
+			'posts_per_page' => 200,
+			'meta_key'       => 'cobble_start', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- small post type.
+			'orderby'        => 'meta_value',
+			'order'          => 'ASC',
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- small post type.
+				array(
+					'key'     => 'cobble_start',
+					'value'   => array( $from . 'T00:00', $to . 'T23:59' ),
+					'compare' => 'BETWEEN',
+				),
+			),
+			'no_found_rows'  => true,
+		)
+	);
+	return array_map( 'cobble_event', $posts );
+}
