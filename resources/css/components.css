@@ -254,6 +254,9 @@ em{font-style:var(--em-style);color:var(--color-accent)}
 .mrow-bot{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-top:4px}
 .mrow-desc{color:var(--color-muted);margin:0;font-size:var(--text-sm)}
 .mrow[hidden],.dish[hidden]{display:none}
+.mrow--img{display:grid;grid-template-columns:112px 1fr;gap:16px;align-items:start}
+.mrow-img{width:112px;height:84px;object-fit:cover;border-radius:var(--radius-card)}
+.mrow-body{min-width:0}
 
 /* ---------- menu teaser ---------- */
 .menu-teaser{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:clamp(32px,5vw,72px);align-items:center}
@@ -741,6 +744,8 @@ input::placeholder,textarea::placeholder{color:var(--color-muted);opacity:1}
   .catbar a[aria-current="true"]{background:var(--color-accent);color:var(--color-accent-contrast);border-color:var(--color-accent)}
   .menu-body{padding-top:20px}
   .mrow-top{flex-wrap:wrap}
+  .mrow--img{grid-template-columns:72px 1fr;gap:12px}
+  .mrow-img{width:72px;height:72px}
   .mrow-top .vars{flex-wrap:wrap;gap:4px 12px}
   .menu-foot,.order-card{grid-template-columns:1fr}
   .lcards-g,.ltabs{grid-template-columns:1fr}
