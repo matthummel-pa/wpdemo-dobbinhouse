@@ -2,6 +2,11 @@
 
 All notable changes to the Cobble & Candle theme and the Cobble & Candle Core plugin. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.4.1] — 2026-10-05
+
+### Fixed
+- The utility-bar cart count now follows quantity changes and removals made on the Cart and Checkout pages.
+
 ## [1.4.0] — 2026-10-05
 
 ### Added
