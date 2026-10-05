@@ -14,7 +14,8 @@
   $phone = $current['phone'] ?? \App\brand('phone');
   $orderUrl = $orderUrl ?: ($current['order_url'] ?? '');
   $utilSocial = ($attributes['showSocial'] ?? true) ? \App\social_links() : '';
-  $showUtility = $attributes['showUtilityBar'] && ($locations || $phone !== '' || $utilSocial !== '');
+  $cart = \App\cart_link();
+  $showUtility = $attributes['showUtilityBar'] && ($locations || $phone !== '' || $utilSocial !== '' || $cart);
 @endphp
 <div {!! $wrapper !!} x-data="siteHeader">
   @if ($attributes['showStyleSwitcher'])
@@ -43,8 +44,15 @@
             <a class="util-phone" href="{!! esc_url('tel:'.preg_replace('/[^0-9+]/', '', $phone)) !!}" @if ($current) :href="$store.site.loc.tel" @endif><x-icon name="phone" /><span @if ($current) x-text="$store.site.loc.phone" @endif>{{ $phone }}</span></a>
           @endif
         </div>
-        @if ($utilSocial !== '')
-          <div class="util-r util-social" aria-label="{{ __('Follow us', 'cobbleandcandle') }}" role="group">{!! $utilSocial !!}</div>
+        @if ($utilSocial !== '' || $cart)
+          <div class="util-r">
+            @if ($utilSocial !== '')
+              <div class="util-social" aria-label="{{ __('Follow us', 'cobbleandcandle') }}" role="group">{!! $utilSocial !!}</div>
+            @endif
+            @if ($cart)
+              <a class="util-cart" href="{!! esc_url($cart['url']) !!}"><x-icon name="bag" />{{ $cart['label'] }}</a>
+            @endif
+          </div>
         @endif
       </div>
     </div>

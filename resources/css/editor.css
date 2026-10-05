@@ -6,6 +6,7 @@
 @import "./components.css" layer(components);
 @import "./wp.css" layer(components);
 @import "./core-blocks.css";
+@import "./shop.css";
 
 @source "../**/*.blade.php";
 

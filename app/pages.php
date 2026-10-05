@@ -71,6 +71,7 @@ function hero_eyebrow(): string
         is_post_type_archive('cobble_room') => __('Rooms & stays', 'cobbleandcandle'),
         is_singular('cobble_location') => __('Our houses', 'cobbleandcandle'),
         is_singular('post') => post_eyebrow(),
+        shop_hero() !== null => __('Gift shop', 'cobbleandcandle'),
         is_category(), is_tag(), is_author(), is_home() => __('Journal', 'cobbleandcandle'),
         default => '',
     };
@@ -105,7 +106,12 @@ function page_hero(array $attributes): array
     $lede = (string) ($attributes['lede'] ?? '');
     $image = (int) ($attributes['imageId'] ?? 0);
 
-    if ($post) {
+    $shop = shop_hero();
+    if ($shop) {
+        $title = $title !== '' ? $title : $shop['title'];
+        $lede = $lede !== '' ? $lede : $shop['lede'];
+        $image = $image ?: $shop['image_id'];
+    } elseif ($post) {
         $title = $title !== '' ? $title : plain_title($post);
         $lede = $lede !== '' ? $lede : (has_excerpt($post) ? get_the_excerpt($post) : '');
         $image = $image ?: (int) get_post_thumbnail_id($post);
