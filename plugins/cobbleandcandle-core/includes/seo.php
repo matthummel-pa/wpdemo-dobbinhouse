@@ -470,7 +470,11 @@ add_filter( 'rank_math/json_ld', 'cobble_rank_math_json_ld', 99 );
 function cobble_meta_description() {
 	$text = '';
 	if ( is_front_page() ) {
-		$text = get_bloginfo( 'description' );
+		$front = (int) get_option( 'page_on_front' );
+		$text  = $front && has_excerpt( $front ) ? get_the_excerpt( $front ) : get_bloginfo( 'description' );
+	} elseif ( is_home() ) {
+		$blog = (int) get_option( 'page_for_posts' );
+		$text = $blog && has_excerpt( $blog ) ? get_the_excerpt( $blog ) : '';
 	} elseif ( is_singular( 'cobble_location' ) ) {
 		$l     = cobble_location( get_queried_object_id() );
 		$parts = array_filter( array( wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) . ' ' . $l['name'], cobble_setting( 'cuisine' ), $l['address'] ) );
@@ -513,6 +517,55 @@ function cobble_share_image() {
 }
 
 /**
+ * Canonical URL for the current request: the permalink, or the archive / posts page URL (paged), without query strings.
+ *
+ * @return string
+ */
+function cobble_canonical_url() {
+	if ( is_singular() ) {
+		return (string) get_permalink();
+	}
+	if ( is_front_page() ) {
+		return home_url( '/' );
+	}
+	$paged = max( 1, (int) get_query_var( 'paged' ) );
+	if ( is_post_type_archive() && 1 === $paged ) {
+		return (string) get_post_type_archive_link( (string) get_query_var( 'post_type' ) );
+	}
+	if ( is_home() || is_archive() ) {
+		return (string) strtok( get_pagenum_link( $paged, false ), '?' );
+	}
+	return home_url( add_query_arg( array() ) );
+}
+
+/**
+ * Titles: a "|" separator, and long single-post titles drop the site name so they stay readable in results.
+ */
+function cobble_title_separator() {
+	return '|';
+}
+add_filter( 'document_title_separator', 'cobble_title_separator' );
+
+/**
+ * Drop the site name from long post titles (over 60 characters with it).
+ *
+ * @param array $parts Title parts.
+ * @return array
+ */
+function cobble_title_parts( $parts ) {
+	if ( cobble_seo_plugin_active() || ! is_singular( 'post' ) || empty( $parts['title'] ) || empty( $parts['site'] ) ) {
+		return $parts;
+	}
+	$title = wp_specialchars_decode( wp_strip_all_tags( $parts['title'] ), ENT_QUOTES );
+	$site  = wp_specialchars_decode( $parts['site'], ENT_QUOTES );
+	if ( mb_strlen( $title . ' | ' . $site ) > 60 ) {
+		unset( $parts['site'] );
+	}
+	return $parts;
+}
+add_filter( 'document_title_parts', 'cobble_title_parts' );
+
+/**
  * Fallback meta, Open Graph, Twitter and archive canonical tags (skipped when an SEO plugin runs).
  */
 function cobble_print_meta_tags() {
@@ -521,10 +574,10 @@ function cobble_print_meta_tags() {
 	}
 	$description = cobble_meta_description();
 	$title       = wp_get_document_title();
-	$url         = is_singular() ? get_permalink() : ( is_post_type_archive() ? get_post_type_archive_link( (string) get_query_var( 'post_type' ) ) : home_url( add_query_arg( array() ) ) );
+	$url         = cobble_canonical_url();
 	$image       = cobble_share_image();
 
-	if ( is_post_type_archive( array( 'cobble_location', 'cobble_event' ) ) && $url ) {
+	if ( ! is_singular() && ! is_search() && ! is_404() && $url ) {
 		printf( '<link rel="canonical" href="%s">' . "\n", esc_url( $url ) );
 	}
 	if ( '' !== $description ) {

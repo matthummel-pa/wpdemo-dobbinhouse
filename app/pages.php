@@ -54,7 +54,7 @@ function crumbs(): array
     } elseif (is_404()) {
         $trail[] = [__('Page not found', 'cobbleandcandle'), ''];
     } elseif (is_archive()) {
-        $trail[] = [wp_strip_all_tags(get_the_archive_title()), ''];
+        $trail[] = [wp_specialchars_decode(wp_strip_all_tags(get_the_archive_title()), ENT_QUOTES), ''];
     }
 
     return $trail;
@@ -86,7 +86,7 @@ function post_eyebrow(): string
         return '';
     }
     $minutes = reading_minutes($post);
-    $parts = array_merge(wp_list_pluck(get_the_category($post->ID), 'name'), [sprintf(_n('%d min read', '%d min read', $minutes, 'cobbleandcandle'), $minutes)]);
+    $parts = array_merge(array_map(fn (\WP_Term $t): string => wp_specialchars_decode($t->name, ENT_QUOTES), get_the_category($post->ID)), [sprintf(_n('%d min read', '%d min read', $minutes, 'cobbleandcandle'), $minutes)]);
 
     return implode(' · ', $parts);
 }
@@ -119,7 +119,7 @@ function page_hero(array $attributes): array
         $title = $title !== '' ? $title : __('Stay the night', 'cobbleandcandle');
         $lede = $lede !== '' ? $lede : __('Rooms upstairs from the bar: supper, a proper bed and breakfast in the morning.', 'cobbleandcandle');
     } elseif (is_category() || is_tag()) {
-        $title = $title !== '' ? $title : single_term_title('', false);
+        $title = $title !== '' ? $title : wp_specialchars_decode(single_term_title('', false), ENT_QUOTES);
         $lede = $lede !== '' ? $lede : wp_strip_all_tags(term_description());
     } elseif (is_author()) {
         $author = get_queried_object();

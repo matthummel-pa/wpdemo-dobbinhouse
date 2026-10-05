@@ -4,13 +4,57 @@
   "name": "cobbleandcandle/journal",
   "title": "Journal",
   "category": "cobbleandcandle",
-  "description": "Blog listing for the posts page and archives: category chips, a featured story, then cards with category, date and reading time.",
-  "keywords": ["blog", "journal", "news", "posts", "stories"],
+  "description": "Blog listing for the posts page and archives: an intro with topic cards, a featured story beside the latest posts, then cards with category, date and reading time.",
+  "keywords": [
+    "blog",
+    "journal",
+    "news",
+    "posts",
+    "stories"
+  ],
   "textdomain": "cobbleandcandle-core",
   "attributes": {
-    "showFeatured": { "type": "boolean", "default": true },
-    "allLabel": { "type": "string", "default": "All stories" },
-    "emptyText": { "type": "string", "default": "No stories here yet." }
+    "showFeatured": {
+      "type": "boolean",
+      "default": true
+    },
+    "allLabel": {
+      "type": "string",
+      "default": "All stories"
+    },
+    "emptyText": {
+      "type": "string",
+      "default": "No stories here yet."
+    },
+    "showIntro": {
+      "type": "boolean",
+      "default": true
+    },
+    "introEyebrow": {
+      "type": "string",
+      "default": "From the journal"
+    },
+    "introTitle": {
+      "type": "string",
+      "default": "Stories from the house"
+    },
+    "introText": {
+      "type": "string",
+      "default": ""
+    },
+    "latestTitle": {
+      "type": "string",
+      "default": "Also new"
+    },
+    "moreTitle": {
+      "type": "string",
+      "default": "More stories"
+    }
   },
-  "supports": { "html": false, "align": ["full"] }
+  "supports": {
+    "html": false,
+    "align": [
+      "full"
+    ]
+  }
 }

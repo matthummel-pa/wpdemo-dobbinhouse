@@ -191,7 +191,7 @@ function post_card(\WP_Post $post): array
         'iso' => (string) get_the_date(DATE_ATOM, $post),
         'minutes' => reading_minutes($post),
         'author' => (string) get_the_author_meta('display_name', (int) $post->post_author),
-        'cats' => array_map(fn (\WP_Term $t): array => ['name' => $t->name, 'url' => (string) get_category_link($t)], get_the_category($post->ID)),
+        'cats' => array_map(fn (\WP_Term $t): array => ['name' => wp_specialchars_decode($t->name, ENT_QUOTES), 'url' => (string) get_category_link($t)], get_the_category($post->ID)),
     ];
 }
 

@@ -3,10 +3,11 @@
 @php
   $tag = $heading ?: 'span';
   $image_id = (int) ($item['image_id'] ?? 0);
+  $image_alt = $image_id ? ((string) get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: (string) ($item['name'] ?? '')) : '';
 @endphp
 <li {{ $attributes->merge(['class' => 'mrow'.($image_id ? ' mrow--img' : '')]) }} data-diet="{{ implode(' ', $item['diet'] ?? []) }}">
   @if ($image_id)
-    {!! wp_get_attachment_image($image_id, 'medium', false, ['class' => 'mrow-img', 'alt' => '', 'loading' => 'lazy', 'decoding' => 'async', 'sizes' => '112px']) !!}
+    {!! wp_get_attachment_image($image_id, 'medium', false, ['class' => 'mrow-img', 'alt' => $image_alt, 'loading' => 'lazy', 'decoding' => 'async', 'sizes' => '112px']) !!}
   @endif
   <div class="mrow-body">
   <div class="mrow-top">
