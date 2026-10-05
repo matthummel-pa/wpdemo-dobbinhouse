@@ -15,7 +15,7 @@
   @endif
   @if ($attributes['showStyleSwitcher'])
     {{-- Demo only: re-apply a visitor's chosen direction (or ?theme=) before the page paints. --}}
-    {!! wp_get_inline_script_tag("(function(d){try{var t=new URLSearchParams(location.search).get('theme')||localStorage.getItem('rm-theme');if(/^(lampwright|ember-arch|ashlar-iron)$/.test(t)){d.documentElement.dataset.theme=t;localStorage.setItem('rm-theme',t)}}catch(e){}})(document);") !!}
+    {!! wp_get_inline_script_tag("(function(d){try{var t=new URLSearchParams(location.search).get('theme')||localStorage.getItem('rm-theme');if(/^(lampwright|ember-arch|ashlar-iron|daylight)$/.test(t)){d.documentElement.dataset.theme=t;localStorage.setItem('rm-theme',t)}}catch(e){}})(document);") !!}
   @endif
   @if ($showUtility)
     <div class="util" role="region" aria-label="{{ __('Contact and style', 'cobbleandcandle') }}">

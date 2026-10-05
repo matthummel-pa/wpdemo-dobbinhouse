@@ -1,7 +1,7 @@
 import Alpine from 'alpinejs'
 
 const root = document.documentElement
-const DIRECTIONS = ['lampwright', 'ember-arch', 'ashlar-iron']
+const DIRECTIONS = ['lampwright', 'ember-arch', 'ashlar-iron', 'daylight']
 const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])'
 
 /* Locations and open-now settings from the Core plugin (printed by the Site Header as JSON). */
