@@ -6,6 +6,7 @@ All notable changes to the Cobble & Candle theme and the Cobble & Candle Core pl
 
 ### Fixed
 - The utility-bar cart count now follows quantity changes and removals made on the Cart and Checkout pages.
+- Gift Shop framed photos (`shop-frames`) keep their shape: a lazy-loaded photo no longer stretches into a tall strip or collapses.
 
 ## [1.4.0] — 2026-10-05
 
