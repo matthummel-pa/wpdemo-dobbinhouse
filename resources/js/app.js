@@ -505,6 +505,18 @@ if (cartCounts.length) {
     .then((cart) => { if (cart) show(Number(cart.items_count) || 0) })
     .catch(() => {})
   ;['wc-blocks_added_to_cart', 'wc-blocks_removed_from_cart'].forEach((name) => document.body.addEventListener(name, refresh))
+  // The Cart and Checkout blocks change quantities in their own data store without firing those events.
+  const watchStore = () => {
+    const store = window.wp?.data
+    if (!store?.select('wc/store/cart')) return false
+    let last = -1
+    store.subscribe(() => {
+      const n = Number(store.select('wc/store/cart').getCartData()?.itemsCount)
+      if (Number.isFinite(n) && n !== last && store.select('wc/store/cart').hasFinishedResolution('getCartData')) { last = n; show(n) }
+    })
+    return true
+  }
+  if (!watchStore()) window.addEventListener('load', watchStore, { once: true })
   if (/(?:^|; )woocommerce_items_in_cart=/.test(document.cookie)) refresh()
   else show(0)
 }

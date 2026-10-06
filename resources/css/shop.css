@@ -10,7 +10,9 @@
 .shop-split {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:center}
 .shop-split > * {margin:0}
 .shop-split .wp-block-image {margin:0}
-.shop-split .wp-block-image img {width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);box-shadow:var(--shadow-card)}
+/* Framed photos are left out so they keep the aspect ratio WordPress maps from their width/height attributes:
+   lazy images get sizes="auto", and browsers then apply `contain: size`, so `height:auto` alone collapses or balloons them. */
+.shop-split .wp-block-image:where(:not(.shop-frames > *)) img {width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);box-shadow:var(--shadow-card)}
 .shop-split .wp-block-image figcaption {margin-top:10px;font-size:var(--text-sm);color:var(--color-muted)}
 .shop-split-t > * + *, .shop-faq > * + .wp-block-details:first-of-type {margin-top:18px}
 .shop-split-t .h2 + *, .shop-faq .h2 + * {margin-top:16px}
@@ -63,7 +65,7 @@
 .shop-frames > * {margin:0}
 .shop-frames .wp-block-image {margin:0;padding:10px 10px 12px;background:#fbf7ee;box-shadow:var(--shadow-card);border-radius:2px;transform:rotate(-2deg)}
 .shop-frames .wp-block-image:nth-child(even) {transform:rotate(2.5deg) translateY(14px)}
-.shop-frames .wp-block-image img {display:block;width:clamp(150px,16vw,210px);height:auto;aspect-ratio:auto;border-radius:0;box-shadow:none}
+.shop-frames .wp-block-image img {display:block;width:clamp(150px,16vw,210px);height:auto;border-radius:0;box-shadow:none}
 .shop-frames .wp-block-image figcaption {margin:8px 0 0;font-size:var(--text-xs);color:#5a4a3a;text-align:center}
 .shop-aside {margin:24px 0 0;padding:18px 22px;border-left:3px solid var(--color-accent);background:color-mix(in srgb,var(--color-accent) 6%,transparent);font-size:var(--text-sm)}
 .shop-aside strong {display:block;margin-bottom:4px;font-size:var(--text-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--color-eyebrow)}
