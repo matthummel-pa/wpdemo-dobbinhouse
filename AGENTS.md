@@ -47,3 +47,9 @@ Merging to `main` runs `.github/workflows/deploy-theme.yml`: Composer (no dev) +
   to the real page (`App\page_link`). Patterns use `esc_html__()` and `\App\page_link()`.
 - Theme JS/CSS are enqueued (handles `cobbleandcandle`, `cobbleandcandle-editor`) and loaded as ES
   modules (`script_loader_tag`); Vite `base` is `./` so fonts resolve in any install path.
+
+## Cursor Cloud specific instructions
+
+Standards come from the Cursor playbook plugin (matthummel-pa/ai-dev-standards-playbook). Do not copy those rules into this repo. When a playbook rule and a project rule disagree, follow this repo for the text domain, local commands, target size, theme switch, and deploy.
+
+The Build runs the playbook `cloud-install.sh`, then `composer install` and `npm ci`. Studio is not on the image. Run the checks this repo already documents. Do not install WordPress unless the task asks. The facts above stay in force.
